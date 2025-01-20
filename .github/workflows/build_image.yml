@@ -1,3 +1,4 @@
+name: Docker - Build Image Workflow
 on: 
     workflow_call: 
         inputs:
