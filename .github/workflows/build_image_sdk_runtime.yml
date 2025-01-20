@@ -82,6 +82,7 @@ jobs:
               cache-to: type=gha,mode=max
             #   platforms: linux/arm64, linux/amd64
               target: al2023-base
+              build-args: ${{ inputs.build_args }}
               # outputs: type=docker, dest=${{ runner.temp }}/${{ inputs.image_name}}.tar
             
           # - name: Upload Image 
