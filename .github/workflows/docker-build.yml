@@ -24,7 +24,7 @@ env:
 
 jobs:
   gitversion:
-    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@feature/workflow-base
+    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@feature/workflows-base
 
   build-base:
     needs: gitversion
