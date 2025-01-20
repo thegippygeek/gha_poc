@@ -24,7 +24,7 @@ env:
 
 jobs:
   gitversion:
-    uses: ./gitgub/workflows/gitversion.yml@feature/workflow-base
+    uses: ./.github/workflows/gitversion.yml@feature/workflow-base
 
   build-base:
     needs: gitversion
