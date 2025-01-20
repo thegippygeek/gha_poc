@@ -23,7 +23,11 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  gitversion:
+    uses: ./gitgub/workflows/actions/gitversion.yml@feature/workflow-base
+    
   build-base:
+    needs: gitversion
     uses: thegippygeek/gha_poc/.github/workflows/build_image_base.yml@feature/workflows-base
     permissions:
           contents: read
