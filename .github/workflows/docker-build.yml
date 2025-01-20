@@ -34,11 +34,11 @@ jobs:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
         docker_target: al2023_base
-        image_name: ${{ github.repository }}
+        image_name: ${{ github.repository }}_base
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
-  build-sdks:
+  build-dotnet-8-sdks-runtimes:
     needs: build-base
     strategy:
         matrix:
@@ -54,74 +54,38 @@ jobs:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
         docker_target: ${{ matrix.target }}
-        image_name: ${{ github.repository }}
+        image_name: ${{ github.repository }}_${{ matrix.target}}
+        build_args: DOTNET_VERSION=8.0
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
+  build-dotnet-6-sdks-runtimes:
+    needs: build-base
+    strategy:
+        matrix:
+            target: [al2023-dotnet-sdk, al2023-dotnet-runtime]        
+    uses: thegippygeek/gha_poc/.github/workflows/build_image_sdk_runtime.yml@feature/workflows_base
+    permissions:
+          contents: read
+          packages: write
+          # This is used to complete the identity challenge
+          # with sigstore/fulcio when running outside of PRs.
+          id-token: write
+    with:
+        docker_registry: ${{ vars.DOCKER_REGISTRY }}
+        docker_username: ${{ vars.DOCKER_USERNAME }}
+        docker_target: ${{ matrix.target }}
+        image_name: ${{ github.repository }}_${{ matrix.target}}
+        build_args: DOTNET_VERSION=6.0
+    secrets:
+        repo_pat: ${{ secrets.DOCKERHUB }}
+      
 
 
 # ### Dotnet 8
 #   build-dotnet-sdk-8:
 #     needs: build-base
     
-#     runs-on: ubuntu-latest
-#     permissions:
-#       contents: read
-#       packages: write
-#       # This is used to complete the identity challenge
-#       # with sigstore/fulcio when running outside of PRs.
-#       id-token: write
-
-#     steps:
-#       - name: Download baseImage
-#         uses: actions/download-artifact@v4
-#         with:
-#             name: al2023baseImage
-#             path: ${{ runner.temp }}
-#       - name: Show Current Images
-#         run: docker image ls -a
-
-#       - name: Load baseImage
-#         run: |
-#           docker load --input ${{ runner.temp }}/al2023_base.tar 
-#           docker image ls -a
-
-#       - name: Checkout repository
-#         uses: actions/checkout@v4
-
-#       # Install the cosign tool except on PR
-#       # https://github.com/sigstore/cosign-installer
-#       - name: Install cosign
-#         if: github.event_name != 'pull_request'
-#         uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 #v3.5.0
-#         with:
-#           cosign-release: 'v2.2.4'
-
-#       # Set up BuildKit Docker container builder to be able to build
-#       # multi-platform images and export cache
-#       # https://github.com/docker/setup-buildx-action
-#       - name: Set up Docker Buildx
-#         uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
-
-#       # Login against a Docker registry except on PR
-#       # https://github.com/docker/login-action
-#       - name: Log into registry ${{ vars.DOCKER_REGISTRY }}
-#         if: github.event_name != 'pull_request'
-#         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
-#         with:
-#           registry: ${{ vars.DOCKER_REGISTRY }}
-#           username: ${{ vars.DOCKER_USERNAME }}
-#           password: ${{ secrets.DOCKERHUB }}
-
-
-#       # Extract metadata (tags, labels) for Docker
-#       # https://github.com/docker/metadata-action
-#       - name: Extract Docker metadata
-#         id: meta
-#         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
-#         with:
-#           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}_dotnet_sdk_8
-
 #       # Build and push Docker image with Buildx (don't push on PR)
 #       # https://github.com/docker/build-push-action
 #       - name: Build and push Docker image
