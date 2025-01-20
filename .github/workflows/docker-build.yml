@@ -17,7 +17,8 @@ on:
 
 env:
   # Use docker.io for Docker Hub if empty
-  REGISTRY: ${{ vars.DOCKER_REGISTRY }}
+#   REGISTRY: ${{ vars.DOCKER_REGISTRY }}
+    REGISTRY: hub.docker.com
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}/al2023/base
 
