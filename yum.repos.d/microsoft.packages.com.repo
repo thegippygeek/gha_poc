@@ -1,0 +1,7 @@
+[microsoft.com]
+name=Microsoft Packages
+baseurl=https://packages.microsoft.com/fedora/38/prod
+gpgkey=https://packages.microsoft.com/fedora/38/prod/repodata/repomd.xml.key
+repo_gpgcheck=0
+gpgcheck=1 
+enabled=1
