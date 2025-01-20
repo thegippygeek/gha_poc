@@ -10,7 +10,7 @@ on:
   schedule:
     - cron: '32 22 * * *'
   push:
-    branches: [ "main", "feature/workflows_base", "bugfix/*" ]
+    branches: [ "main", "feature/workflows-base", "bugfix/*" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   pull_request:
@@ -55,7 +55,7 @@ jobs:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
         docker_target: ${{ matrix.target }}
-        image_name: ${{ github.repository }}_${{ matrix.target}}
+        image_name: ${{ github.repository_owner }}/${{ matrix.target}}-8
         build_args: DOTNET_VERSION=8.0
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
@@ -76,7 +76,7 @@ jobs:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
         docker_target: ${{ matrix.target }}
-        image_name: ${{ github.repository }}_${{ matrix.target}}
+        image_name: ${{ github.repository_owner }}/${{ matrix.target}}-6
         build_args: DOTNET_VERSION=6.0
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
