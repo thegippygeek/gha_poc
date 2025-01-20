@@ -1,4 +1,4 @@
-name: Docker - Build Image Workflow
+name: Docker - Build SDK/Runtime Image Workflow
 on: 
     workflow_call: 
         inputs:
@@ -84,8 +84,8 @@ jobs:
           - name: Upload Image 
             uses: actions/upload-artifact@v4
             with:
-                name: al2023baseImage
-                path: ${{ runner.temp }}/al2023_base.tar
+                name: ${{ inputs.image_name}}
+                path: ${{ runner.temp }}/${{ inputs.image_name }}.tar
     
           # Sign the resulting Docker image digest except on PRs.
           # This will only write to the public Rekor transparency log when the Docker
