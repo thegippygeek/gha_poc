@@ -1,4 +1,4 @@
-FROM amazonlinux:2023 as al2023-base 
+FROM amazonlinux:2023 AS al2023-base 
 
 # Update and Install Any Dependencies
 RUN dnf update \
