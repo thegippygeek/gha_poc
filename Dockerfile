@@ -18,7 +18,8 @@ RUN echo app:x:1000 >> /etc/group && \
     echo app:x:1000:1000::/:/bin/bash >> /etc/passwd
 
 
-FROM al2023-base AS al2023-dotnet-sdk
+# FROM al2023-base AS al2023-dotnet-sdk
+FROM docker.io/thegippygeek/gha_poc_base:feature-workflows_base AS al2023-dotnet-sdk
 
 ARG DOTNET_VERSION
 ENV dotnetversion=dotnet-sdk-$DOTNET_VERSION

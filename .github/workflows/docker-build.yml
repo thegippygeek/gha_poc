@@ -83,7 +83,13 @@ jobs:
           cache-to: type=gha,mode=max
         #   platforms: linux/arm64, linux/amd64
           target: al2023-base
+          outputs: type=docker, dest=${{ runner.temp }}/al2023_base.tar
         
+      - name: Upload Image 
+        uses: actions/upload-artifact@v4
+        with:
+            name: al2023baseImage
+            path: ${{ runner.temp }}/al2023_base.tar
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
@@ -103,6 +109,7 @@ jobs:
 ### Dotnet 8
   build-dotnet-sdk-8:
     needs: build-base
+    
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -112,6 +119,19 @@ jobs:
       id-token: write
 
     steps:
+      - name: Download baseImage
+        uses: actions/download-artifact@v4
+        with:
+            name: al2023baseImage
+            path: ${{ runner.temp }}
+      - name: Show Current Images
+        run: docker image ls -a
+
+      - name: Load baseImage
+        run: |
+          docker load --input ${{ runner.temp }}/al2023_base.tar 
+          docker image ls -a
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
