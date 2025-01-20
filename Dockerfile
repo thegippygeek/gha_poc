@@ -2,6 +2,7 @@ ARG DOTNET_VERSION=8
 
 FROM amazonlinux:2023 AS al2023-base 
 
+COPY dnf/dnf.conf /etc/dnf/dnf.conf
 COPY ./yum.repos.d /etc/yum.repos.d/
 
 # Update and Install Any Dependencies
@@ -9,7 +10,7 @@ RUN dnf update \
 && dnf upgrade \
 && dnf install  uuid \
                     openssl \
-                    hostname -y
+                    hostname
  
  
 # Add user/group app with no home for applications run as non-root user
@@ -24,7 +25,7 @@ ENV dotnetversion=dotnet-sdk-$DOTNET_VERSION
 
 # Install dotnet sdk
 RUN echo "Installing: " ${dotnetversion}
-RUN dnf install $(echo $dotnetversion) -y\
+RUN dnf install $(echo $dotnetversion) \
 && dnf clean all
 RUN dotnet --list-sdks
 
@@ -35,6 +36,6 @@ ENV dotnetversion=aspnetcore-runtime-$DOTNET_VERSION
 
 # Install aspnet core runtime
 RUN echo "Installing: "${dotnetversion}
-RUN dnf install $(echo $dotnetversion) -y \
+RUN dnf install $(echo $dotnetversion) \
 && dnf clean all
 RUN dotnet --list-runtime
