@@ -1,0 +1,31 @@
+[amazonlinux]
+name=Amazon Linux 2023 repository
+mirrorlist=https://cdn.amazonlinux.com/al2023/core/mirrors/$releasever/$basearch/mirror.list
+priority=10
+enabled=1
+repo_gpgcheck=0
+type=rpm
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-amazon-linux-2023
+excludepkgs=dotnet*,aspnet*,netstandard*
+exclude=dotnet* aspnet* netstandard*
+
+[amazonlinux-source]
+name=Amazon Linux 2023 repository - Source packages
+mirrorlist=https://cdn.amazonlinux.com/al2023/core/mirrors/$releasever/SRPMS/mirror.list
+enabled=0
+repo_gpgcheck=0
+type=rpm
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-amazon-linux-2023
+metadata_expire=6h
+
+[amazonlinux-debuginfo]
+name=Amazon Linux 2023 repository - Debug
+mirrorlist=https://cdn.amazonlinux.com/al2023/core/mirrors/$releasever/debuginfo/$basearch/mirror.list
+enabled=0
+repo_gpgcheck=0
+type=rpm
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-amazon-linux-2023
+metadata_expire=6h

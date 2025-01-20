@@ -81,7 +81,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platforms: linux/arm64, linux/amd64
+        #   platforms: linux/arm64, linux/amd64
           target: al2023-base
         
 
@@ -160,7 +160,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platforms: linux/arm64, linux/amd64
+        #   platforms: linux/arm64, linux/amd64
           target: al2023-dotnet-sdk
           build-args: DOTNET_VERSION=8.0
         
@@ -241,7 +241,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platforms: linux/arm64, linux/amd64
+        #   platforms: linux/arm64, linux/amd64
           target: al2023-dotnet-runtime
           build-args: DOTNET_VERSION=8.0
         
