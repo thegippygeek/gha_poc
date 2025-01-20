@@ -23,7 +23,7 @@ env:
 
 jobs:
   build-base:
-    uses: github.com/thegippygeek/gha_poc/.github/workflows/build_image.yml
+    uses: github.com/thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/workflows_base
     with:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
