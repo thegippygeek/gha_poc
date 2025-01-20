@@ -38,4 +38,4 @@ ENV dotnetversion=aspnetcore-runtime-$DOTNET_VERSION
 RUN echo "Installing: "${dotnetversion}
 RUN dnf install $(echo $dotnetversion) \
 && dnf clean all
-RUN dotnet --list-runtime
+RUN dotnet --list-runtimes
