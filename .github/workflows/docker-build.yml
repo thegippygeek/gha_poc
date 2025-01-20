@@ -82,6 +82,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/arm64, linux/amd64
+          target: al2023-base
         
 
       # Sign the resulting Docker image digest except on PRs.
