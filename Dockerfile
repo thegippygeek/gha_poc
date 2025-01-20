@@ -1,5 +1,6 @@
-FROM amazonlinux:2023 AS al2023-base 
+ARG DOTNET_VERSION=8
 
+FROM amazonlinux:2023 AS al2023-base 
 
 COPY ./yum.repos.d /etc/yum.repos.d/
 
