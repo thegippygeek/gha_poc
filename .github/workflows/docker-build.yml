@@ -9,7 +9,7 @@ on:
   schedule:
     - cron: '32 22 * * *'
   push:
-    branches: [ "main", "feature/workflows_base" ]
+    branches: [ "main", "feature/workflows_base", "bugfix/*" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   pull_request:
@@ -58,8 +58,10 @@ jobs:
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB }}
+        #   username: ${{ github.actor }}
+        #   password: ${{ secrets.GITHUB_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
