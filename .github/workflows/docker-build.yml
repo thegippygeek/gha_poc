@@ -6,7 +6,7 @@ name: Docker - Build Base Image
 # documentation.
 
 on:
-  
+
   schedule:
     - cron: '32 22 * * *'
   push:
@@ -35,7 +35,7 @@ jobs:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
         docker_target: al2023_base
-        image_name: ${{ github.repository }}_base
+        image_name: ${{ github.repository_owner }}/al2023/base
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
