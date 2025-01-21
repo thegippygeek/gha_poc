@@ -23,10 +23,10 @@ env:
 
 jobs:
   gitversion:  
-    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@feature/workflows-base
+    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml
 
   build-base:
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/workflows-base
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml
     needs: gitversion
     permissions:
           contents: read
@@ -51,7 +51,7 @@ jobs:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]
                 
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/workflows-base
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml
     permissions:
           contents: read
           packages: write
@@ -75,7 +75,7 @@ jobs:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]  
                       
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/workflows-base
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml
     permissions:
           contents: read
           packages: write
