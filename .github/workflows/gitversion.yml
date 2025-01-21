@@ -11,7 +11,10 @@ on:
         value: ${{jobs.get_GitVersion.outputs.GitVersion_FullSemVer}}
       GitVersion_ShortSHA:
         description: "The ShortSHA from GitVersion"
-        value: ${{jobs.get_GitVersion.outputs.GitVersion_ShortSHA}}        
+        value: ${{jobs.get_GitVersion.outputs.GitVersion_ShortSHA}}
+      GitVersion_MajorMinorPatch:
+        description: "The Major.Minor.Patch version from GitVersion"
+        value: ${{jobs.get_GitVersion.outputs.GitVersion_MajorMinorPatch}}        
 jobs:
   get_GitVersion:
     runs-on: ubuntu-latest
@@ -22,6 +25,7 @@ jobs:
         GitVersion_BranchName: ${{steps.version_step.outputs.GitVersion_BranchName}}
         GitVersion_FullSemVer: ${{steps.version_step.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{steps.version_step.outputs.GitVersion_ShortSHA}}
+        GitVersion_MajorMinorPatch: ${{steps.version_step.outputs.GitVersion_MajorMinorPatch}}
 
     steps:
       - name: Checkout repository

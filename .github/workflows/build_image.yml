@@ -23,6 +23,9 @@ on:
             GitVersion_ShortSHA:
                  required: false
                  type: string
+            GitVersion_MajorMinorPatch:
+                 required: false
+                 type: string
             Image_Description:
                   required: true
                   type: string
@@ -92,6 +95,7 @@ jobs:
                 type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='Australia/Perth'}}
                 type=raw,value=latest,enable={{is_default_branch}}
                 type=raw,value=${{inputs.GitVersion_ShortSHA}}
+                type=raw,value=${{inputs.GitVersion_MajorMinorPatch}}
                 type=raw,value={{branch}}-{{sha}},event=branch
                 
               labels: |

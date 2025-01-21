@@ -36,6 +36,7 @@ jobs:
         Image_Description: "Amazon Linux 2023 Base Image to build sdks/runtimes upon"
         GitVersion_FullSemVer: ${{ needs.gitversion.outputs.GitVersion_FullSemVer }}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
@@ -60,6 +61,7 @@ jobs:
         Image_Description: "Amazon Linux 2023 with Dotnet 8"
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
         Build_Args: DOTNET_VERSION=8.0
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
@@ -85,6 +87,7 @@ jobs:
         Image_Description: "Amazon Linux 2023 with Dotnet 6"
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
         Build_Args: DOTNET_VERSION=6.0
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
