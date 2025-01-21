@@ -22,7 +22,7 @@ branches:
   develop:
     mode: ContinuousDelivery
     label: alpha
-    increment: Minor
+    increment: Patch
     prevent-increment:
       when-current-commit-tagged: false
     track-merge-target: true
@@ -69,7 +69,7 @@ branches:
   feature:
     mode: ManualDeployment
     label: '{BranchName}'
-    increment: Inherit
+    increment: Patch
     prevent-increment:
       when-current-commit-tagged: false
     track-merge-message: true
