@@ -93,7 +93,7 @@ jobs:
                 type=raw,value=latest,enable={{is_default_branch}}
                 type=raw,value=${{inputs.GitVersion_ShortSHA}}
                 type=raw,value={{branch}}-{{sha}},event=branch
-                type=sha
+                
               labels: |
                 org.opencontainers.image.description="Amazon Linux 2023 Base Image to build sdks/runtimes upon"
                 org.opencontainers.image.version=${{ inputs.GitVersion_FullSemVer }}
