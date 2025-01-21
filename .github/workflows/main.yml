@@ -25,7 +25,6 @@ env:
 jobs:
   
   build-base:
-    # needs: gitversion
     uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/workflows-base
     permissions:
           contents: read
@@ -37,8 +36,7 @@ jobs:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
         docker_target: al2023_base
-        image_name: ${{ github.repository }}/al2023/base
-        # gitVersion_SemVer: ${{needs.gitversion.outputs.steps.version_step.GitVersion_FullSemVer}}
+        image_name: ${{ github.repository }}
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
