@@ -34,7 +34,7 @@ jobs:
     with:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
-        docker_target: al2023_base
+        docker_target: al2023-base
         image_name: ${{ github.repository }}
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
