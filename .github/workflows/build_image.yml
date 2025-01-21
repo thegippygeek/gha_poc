@@ -27,8 +27,8 @@ on:
                  required: false
                  type: string
             Image_Description:
-                  required: true
-                  type: string
+                 required: true
+                 type: string
 
         secrets:
             repo_pat:
