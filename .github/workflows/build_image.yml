@@ -101,14 +101,7 @@ jobs:
               cache-from: type=gha
               cache-to: type=gha,mode=max
               platforms: linux/arm64
-              target: al2023-base
-              # outputs: type=docker, dest=${{ runner.temp }}/${{ inputs.image_name}}.tar
-            
-          # - name: Upload Image 
-          #   uses: actions/upload-artifact@v4
-          #   with:
-          #       name: ${{ inputs.image_name}}
-          #       path: ${{ runner.temp }}/${{ inputs.image_name }}.tar
+              target: ${{ inputs.docker_target }}
     
           # Sign the resulting Docker image digest except on PRs.
           # This will only write to the public Rekor transparency log when the Docker

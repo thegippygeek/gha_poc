@@ -37,7 +37,10 @@ jobs:
       - name: Determine Version
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.1.2
-        
+        with:
+          useConfigFile: true
+          configFilePath: AWS-GitVersion.yml
+          
       - name: Display GitVersion variables (without prefix)
         run: |
             echo "FullSemVer (env.fullSemVer)            : ${{ env.fullSemVer }}"
