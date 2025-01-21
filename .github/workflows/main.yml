@@ -62,7 +62,8 @@ jobs:
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
-        Build_Args: BASEIMAGE_VERSION=${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }} ,DOTNET_VERSION=8.0
+        Build_Args: [ BASEIMAGE_VERSION=${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }} ,
+                      DOTNET_VERSION=8.0]
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
@@ -88,7 +89,8 @@ jobs:
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
-        Build_Args: BASEIMAGE_VERSION=${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }} ,
+        Build_Args: [ BASEIMAGE_VERSION="${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }},
+                      DOTNET_VERSION=6.0]
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
   
@@ -114,7 +116,7 @@ jobs:
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
-        Build_Args: BASEIMAGE_VERSION=${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
+        Build_Args: [ BASEIMAGE_VERSION=${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }} ]
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
             
