@@ -15,6 +15,7 @@ on:
   pull_request:
     branches: [ "main" ]
 
+    
 jobs:
   gitversion:  
     uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.1.0
@@ -29,8 +30,9 @@ jobs:
           # with sigstore/fulcio when running outside of PRs.
           id-token: write
     with:
-        Docker_Registry: ${{ vars.DOCKER_REGISTRY }}
-        Docker_Username: ${{ vars.DOCKER_USERNAME }}
+        Docker_Registry: ${{ vars.CONTAINER_REGISTRY }}
+        Docker_Username: ${{ github.actor }}
+        # Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: al2023-base
         Image_Name: ${{ github.repository }}
         Image_Description: "Amazon Linux 2023 Base Image to build sdks/runtimes upon"
@@ -38,7 +40,8 @@ jobs:
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
     secrets:
-        repo_pat: ${{ secrets.DOCKERHUB }}
+        # repo_pat: ${{ secrets.DOCKERHUB }}
+        repo_pat: ${{ secrets.GITHUB_TOKEN }}
 
   build-dotnet-8-sdks-runtimes:
     needs: [gitversion, build-base]
@@ -54,9 +57,9 @@ jobs:
           # with sigstore/fulcio when running outside of PRs.
           id-token: write
     with:
-        Docker_Registry: ${{ vars.DOCKER_REGISTRY }}
-        Docker_Username: ${{ vars.DOCKER_USERNAME }}
-        Docker_Target: ${{ matrix.target }}
+        Docker_Registry: ${{ vars.CONTAINER_REGISTRY }}
+        Docker_Username: ${{ github.actor }}
+        # Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Image_Name: ${{ github.repository }}-${{ matrix.target}}-8
         Image_Description: "Amazon Linux 2023 with Dotnet 8"
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
@@ -64,7 +67,8 @@ jobs:
         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
         Build_Args: DOTNET_VERSION=8.0
     secrets:
-        repo_pat: ${{ secrets.DOCKERHUB }}
+        # repo_pat: ${{ secrets.DOCKERHUB }}
+        repo_pat: ${{ secrets.GITHUB_TOKEN }}
 
 ##### DOTNET6 #####
   build-dotnet-6-sdks-runtimes:
@@ -81,8 +85,9 @@ jobs:
           # with sigstore/fulcio when running outside of PRs.
           id-token: write
     with:
-        Docker_Registry: ${{ vars.DOCKER_REGISTRY }}
-        Docker_Username: ${{ vars.DOCKER_USERNAME }}
+        Docker_Registry: ${{ vars.CONTAINER_REGISTRY }}
+        Docker_Username: ${{ github.actor }}
+        # Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: ${{ matrix.target }}
         Image_Name: ${{ github.repository }}-${{ matrix.target}}-6
         Image_Description: "Amazon Linux 2023 with Dotnet 6"
@@ -91,7 +96,8 @@ jobs:
         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
         Build_Args: DOTNET_VERSION=6.0
     secrets:
-        repo_pat: ${{ secrets.DOCKERHUB }}
+        # repo_pat: ${{ secrets.DOCKERHUB }}
+        repo_pat: ${{ secrets.GITHUB_TOKEN }}
   
   build-nodejs:
     needs: [gitversion, build-base]
@@ -107,8 +113,9 @@ jobs:
           # with sigstore/fulcio when running outside of PRs.
           id-token: write
     with:
-        Docker_Registry: ${{ vars.DOCKER_REGISTRY }}
-        Docker_Username: ${{ vars.DOCKER_USERNAME }}
+        Docker_Registry: ${{ vars.CONTAINER_REGISTRY }}
+        Docker_Username: ${{ github.actor }}
+        # Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: ${{ matrix.target }}
         Image_Name: ${{ github.repository }}-${{ matrix.target}}
         Image_Description: "Amazon Linux 2023 with NodeJS"
@@ -117,5 +124,6 @@ jobs:
         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
         Build_Args: NODE_VERSION=NOTSET 
     secrets:
-        repo_pat: ${{ secrets.DOCKERHUB }}
+        # repo_pat: ${{ secrets.DOCKERHUB }}
+        repo_pat: ${{ secrets.GITHUB_TOKEN }}
             
