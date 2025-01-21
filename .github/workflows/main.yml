@@ -17,10 +17,10 @@ on:
 
 jobs:
   gitversion:  
-    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.0.0
+    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.0.1
 
   build-base:
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.1
     needs: gitversion
     permissions:
           contents: read
@@ -46,7 +46,7 @@ jobs:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]
                 
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.1
     permissions:
           contents: read
           packages: write
@@ -72,7 +72,7 @@ jobs:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]  
                       
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.1
     permissions:
           contents: read
           packages: write
