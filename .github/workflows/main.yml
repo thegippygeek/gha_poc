@@ -15,12 +15,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ${{ vars.DOCKER_REGISTRY }}
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   gitversion:  
     uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.0.0
@@ -46,7 +40,6 @@ jobs:
 
   build-dotnet-8-sdks-runtimes:
     needs: [gitversion, build-base]
-    
     strategy:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]
