@@ -44,7 +44,7 @@ jobs:
     strategy:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]        
-    uses: thegippygeek/gha_poc/.github/workflows/build_image_sdk_runtime.yml@feature/workflows-base
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/workflows-base
     permissions:
           contents: read
           packages: write
@@ -55,17 +55,17 @@ jobs:
         docker_registry: ${{ vars.DOCKER_REGISTRY }}
         docker_username: ${{ vars.DOCKER_USERNAME }}
         docker_target: ${{ matrix.target }}
-        image_name: ${{ github.repository }}/${{ matrix.target}}-8
+        image_name: ${{ github.repository }}-${{ matrix.target}}-8
         build_args: DOTNET_VERSION=8.0
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
   build-dotnet-6-sdks-runtimes:
-    needs: build-base
+    needs: [build-base, build-dotnet-8-sdks-runtimes]
     strategy:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]        
-    uses: thegippygeek/gha_poc/.github/workflows/build_image_sdk_runtime.yml@feature/workflows-base
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/workflows-base
     permissions:
           contents: read
           packages: write
