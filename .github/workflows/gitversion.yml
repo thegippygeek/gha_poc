@@ -33,9 +33,9 @@ jobs:
         run: |
             echo "FullSemVer (env.fullSemVer)            : ${{ env.fullSemVer }}"
 
-    #   - run: |
-    #         echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
-    #     name: Display GitVersion variables (with prefix)
+      - name: Display GitVersion variables (with prefix)
+        run: |
+            echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
 
     #   - run: |
     #         echo "FullSemVer (steps.version_step.outputs.fullSemVer)            : ${{ steps.version_step.outputs.fullSemVer }}"
