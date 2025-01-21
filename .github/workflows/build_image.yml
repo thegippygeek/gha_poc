@@ -14,7 +14,9 @@ on:
             image_name:
                 required: true
                 type: string
-
+            build_args:
+                type: string
+                default: args=none 
         secrets:
             repo_pat:
                 required: true
