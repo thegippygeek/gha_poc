@@ -33,6 +33,7 @@ jobs:
         Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: al2023-base
         Image_Name: ${{ github.repository }}
+        Image_Description: "Amazon Linux 2023 Base Image to build sdks/runtimes upon"
         GitVersion_FullSemVer: ${{ needs.gitversion.outputs.GitVersion_FullSemVer }}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
     secrets:
@@ -56,6 +57,7 @@ jobs:
         Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: ${{ matrix.target }}
         Image_Name: ${{ github.repository }}-${{ matrix.target}}-8
+        Image_Description: "Amazon Linux 2023 with Dotnet 8"
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
         Build_Args: DOTNET_VERSION=8.0
@@ -80,6 +82,7 @@ jobs:
         Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: ${{ matrix.target }}
         Image_Name: ${{ github.repository }}-${{ matrix.target}}-6
+        Image_Description: "Amazon Linux 2023 with Dotnet 6"
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
         Build_Args: DOTNET_VERSION=6.0
