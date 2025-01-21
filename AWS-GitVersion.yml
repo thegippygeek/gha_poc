@@ -73,7 +73,7 @@ branches:
     prevent-increment:
       when-current-commit-tagged: false
     track-merge-message: true
-    regex: ^features?[/-](?<BranchName>.+)
+    regex: ^feature?[/-](?<BranchName>.+)
     source-branches:
     - develop
     - main
