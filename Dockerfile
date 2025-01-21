@@ -39,3 +39,8 @@ RUN echo "Installing: "${dotnetversion}
 RUN dnf install $(echo $dotnetversion) \
 && dnf clean all
 RUN dotnet --list-runtimes
+
+FROM thegippygeek/gha_poc as al2023-nodejs
+
+RUN dnf install nodejs \
+    && dnf clean all 
