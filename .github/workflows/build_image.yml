@@ -18,6 +18,7 @@ on:
         secrets:
             repo_pat:
                 required: true
+        
 
 jobs:   
     gitversion:  
@@ -41,7 +42,7 @@ jobs:
               echo "Docker Username: ${{inputs.docker_username}}"
               echo "Docker Target: ${{inputs.docker_target}}"
               echo "Image Name: ${{inputs.image_name}}"
-              echo "GitVersion SemVer: ${{needs.gitversion.outputs}}"
+              echo "GitVersion SemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}"
           
           - name: Checkout repository
             uses: actions/checkout@v4
