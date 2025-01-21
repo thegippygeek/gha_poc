@@ -60,6 +60,7 @@ jobs:
         Docker_Registry: ${{ vars.CONTAINER_REGISTRY }}
         Docker_Username: ${{ github.actor }}
         # Docker_Username: ${{ vars.DOCKER_USERNAME }}
+        Docker_Target: ${{ matrix.target }}
         Image_Name: ${{ github.repository }}-${{ matrix.target}}-8
         Image_Description: "Amazon Linux 2023 with Dotnet 8"
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
