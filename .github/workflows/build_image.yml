@@ -41,7 +41,7 @@ jobs:
               echo "Docker Username: ${{inputs.docker_username}}"
               echo "Docker Target: ${{inputs.docker_target}}"
               echo "Image Name: ${{inputs.image_name}}"
-              echo "GitVersion SemVer: ${{needs.gitversion.outputs.version_step.GitVersion_FullSemVer}}
+              echo "GitVersion SemVer: ${{needs.gitversion.outputs.version_step.GitVersion_FullSemVer}}"
           
           - name: Checkout repository
             uses: actions/checkout@v4
