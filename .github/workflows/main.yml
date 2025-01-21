@@ -9,17 +9,11 @@ on:
   schedule:
     - cron: '32 22 * * *'
   push:
-    branches: [ "main", "feature/workflows-base", "bugfix/*" ]
+    branches: [ "main", "feature/*","bugfix/*" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "main" ]
-
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ${{ vars.DOCKER_REGISTRY }}
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   gitversion:  
@@ -39,14 +33,15 @@ jobs:
         Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: al2023-base
         Image_Name: ${{ github.repository }}
+        Image_Description: "Amazon Linux 2023 Base Image to build sdks/runtimes upon"
         GitVersion_FullSemVer: ${{ needs.gitversion.outputs.GitVersion_FullSemVer }}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
   build-dotnet-8-sdks-runtimes:
     needs: [gitversion, build-base]
-    
     strategy:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]
@@ -63,8 +58,10 @@ jobs:
         Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: ${{ matrix.target }}
         Image_Name: ${{ github.repository }}-${{ matrix.target}}-8
+        Image_Description: "Amazon Linux 2023 with Dotnet 8"
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
         Build_Args: DOTNET_VERSION=8.0
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
@@ -87,8 +84,10 @@ jobs:
         Docker_Username: ${{ vars.DOCKER_USERNAME }}
         Docker_Target: ${{ matrix.target }}
         Image_Name: ${{ github.repository }}-${{ matrix.target}}-6
+        Image_Description: "Amazon Linux 2023 with Dotnet 6"
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
         Build_Args: DOTNET_VERSION=6.0
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
