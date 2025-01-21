@@ -62,7 +62,7 @@ jobs:
         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
-        Build_Args: DOTNET_VERSION=8.0
+        Build_Args: DOTNET_VERSION=8.0,BASEIMAGE_VERSION=${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
