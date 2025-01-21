@@ -1,5 +1,5 @@
 # gha_poc
-
+[![Docker - Build Images](https://github.com/thegippygeek/gha_poc/actions/workflows/main.yml/badge.svg)](https://github.com/thegippygeek/gha_poc/actions/workflows/main.yml)
 ## Goals
 1. Container base images built in GHA
 2. Stretch Goals:
