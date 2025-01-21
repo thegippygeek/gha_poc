@@ -1,4 +1,5 @@
 ARG DOTNET_VERSION=8.0
+ARG BASEIMAGE_VERSION=1.0.0
 
 FROM amazonlinux:2023 AS al2023-base 
 
@@ -18,7 +19,7 @@ RUN echo app:x:1000 >> /etc/group && \
     echo app:x:1000:1000::/:/bin/bash >> /etc/passwd
 
 
-FROM al2023-base AS al2023-dotnet-sdk
+FROM thegippygeek/gha_poc:${BASEIMAGE_VERSION}} AS al2023-dotnet-sdk
 
 ARG DOTNET_VERSION
 ENV dotnetversion=dotnet-sdk-$DOTNET_VERSION
@@ -30,7 +31,7 @@ RUN dnf install $(echo $dotnetversion) \
 RUN dotnet --list-sdks
 
 
-FROM al2023-base AS al2023-dotnet-runtime
+FROM thegippygeek/gha_poc:${BASEIMAGE_VERSION}} AS al2023-dotnet-runtime
 ARG DOTNET_VERSION
 ENV dotnetversion=aspnetcore-runtime-$DOTNET_VERSION
 
@@ -40,7 +41,7 @@ RUN dnf install $(echo $dotnetversion) \
 && dnf clean all
 RUN dotnet --list-runtimes
 
-FROM thegippygeek/gha_poc as al2023-nodejs
+FROM thegippygeek/gha_poc:${BASEIMAGE_VERSION}} AS al2023-nodejs
 
 RUN dnf install nodejs \
     && dnf clean all 
