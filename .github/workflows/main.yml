@@ -66,57 +66,56 @@ jobs:
     secrets:
         repo_pat: ${{ secrets.DOCKERHUB }}
 
-# ##### DOTNET6 #####
-#   build-dotnet-6-sdks-runtimes:
-#     needs: [gitversion, build-base]
-#     strategy:
-#         matrix:
-#             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]  
+##### DOTNET6 #####
+  build-dotnet-6-sdks-runtimes:
+    needs: [gitversion, build-base]
+    strategy:
+        matrix:
+            target: [al2023-dotnet-sdk, al2023-dotnet-runtime]  
                       
-#     uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.1
-#     permissions:
-#           contents: read
-#           packages: write
-#           # This is used to complete the identity challenge
-#           # with sigstore/fulcio when running outside of PRs.
-#           id-token: write
-#     with:
-#         Docker_Registry: ${{ vars.DOCKER_REGISTRY }}
-#         Docker_Username: ${{ vars.DOCKER_USERNAME }}
-#         Docker_Target: ${{ matrix.target }}
-#         Image_Name: ${{ github.repository }}-${{ matrix.target}}-6
-#         Image_Description: "Amazon Linux 2023 with Dotnet 6"
-#         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
-#         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
-#         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
-#         Build_Args: [ BASEIMAGE_VERSION="${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }},
-#                       DOTNET_VERSION=6.0]
-#     secrets:
-#         repo_pat: ${{ secrets.DOCKERHUB }}
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.1
+    permissions:
+          contents: read
+          packages: write
+          # This is used to complete the identity challenge
+          # with sigstore/fulcio when running outside of PRs.
+          id-token: write
+    with:
+        Docker_Registry: ${{ vars.DOCKER_REGISTRY }}
+        Docker_Username: ${{ vars.DOCKER_USERNAME }}
+        Docker_Target: ${{ matrix.target }}
+        Image_Name: ${{ github.repository }}-${{ matrix.target}}-6
+        Image_Description: "Amazon Linux 2023 with Dotnet 6"
+        GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
+        GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
+        Build_Args: DOTNET_VERSION=6.0
+    secrets:
+        repo_pat: ${{ secrets.DOCKERHUB }}
   
-#   build-nodejs:
-#     needs: [gitversion, build-base]
-#     strategy:
-#         matrix:
-#             target: [al2023-nodejs]  
+  build-nodejs:
+    needs: [gitversion, build-base]
+    strategy:
+        matrix:
+            target: [al2023-nodejs]  
                       
-#     uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.1
-#     permissions:
-#           contents: read
-#           packages: write
-#           # This is used to complete the identity challenge
-#           # with sigstore/fulcio when running outside of PRs.
-#           id-token: write
-#     with:
-#         Docker_Registry: ${{ vars.DOCKER_REGISTRY }}
-#         Docker_Username: ${{ vars.DOCKER_USERNAME }}
-#         Docker_Target: ${{ matrix.target }}
-#         Image_Name: ${{ github.repository }}-${{ matrix.target}}
-#         Image_Description: "Amazon Linux 2023 with NodeJS"
-#         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
-#         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
-#         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
-#         Build_Args: [ BASEIMAGE_VERSION=${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }} ]
-#     secrets:
-#         repo_pat: ${{ secrets.DOCKERHUB }}
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.0.1
+    permissions:
+          contents: read
+          packages: write
+          # This is used to complete the identity challenge
+          # with sigstore/fulcio when running outside of PRs.
+          id-token: write
+    with:
+        Docker_Registry: ${{ vars.DOCKER_REGISTRY }}
+        Docker_Username: ${{ vars.DOCKER_USERNAME }}
+        Docker_Target: ${{ matrix.target }}
+        Image_Name: ${{ github.repository }}-${{ matrix.target}}
+        Image_Description: "Amazon Linux 2023 with NodeJS"
+        GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
+        GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
+        Build_Args: NODE_VERSION=NOTSET 
+    secrets:
+        repo_pat: ${{ secrets.DOCKERHUB }}
             
