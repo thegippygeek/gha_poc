@@ -114,7 +114,7 @@ jobs:
               cache-from: type=gha
               cache-to: type=gha,mode=max
               target: ${{ inputs.Docker_Target }}
-              build-args: ${{ inputs.Build_Args }}
+              build-args: ${{ inputs.Build_Args }},BASEIMAGE_VERSION=${{ inputs.GitVersion_MajorMinorPatch }}
     
           # Sign the resulting Docker image digest except on PRs.
           # This will only write to the public Rekor transparency log when the Docker
