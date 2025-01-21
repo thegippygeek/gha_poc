@@ -32,6 +32,14 @@ jobs:
           id-token: write
     
         steps:
+
+          - name: Printout Inputs
+            run: |
+              echo "Docker Registry: ${{inputs.docker_registry}}"
+              echo "Docker Username: ${{inputs.docker_username}}"
+              echo "Docker Target: ${{inputs.docker_target}}"
+              echo "Image Name: ${{inputs.image_name}}"
+              echo "GitVersion SemVer: ${{inputs.gitVersion_SemVer}}"
           - name: Checkout repository
             uses: actions/checkout@v4
             with:
