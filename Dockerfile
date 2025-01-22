@@ -1,5 +1,6 @@
 ARG DOTNET_VERSION=8.0
 ARG BASEIMAGE_VERSION=latest
+ARG CONTAINER_REGISTRY=ghcr.io
 
 FROM amazonlinux:2023 AS al2023-base 
 
@@ -18,7 +19,7 @@ RUN echo app:x:1000 >> /etc/group && \
     echo app:x:1000:1000::/:/bin/bash >> /etc/passwd
 
 
-FROM thegippygeek/gha_poc:${BASEIMAGE_VERSION} AS al2023-dotnet-sdk
+FROM ${CONTAINER_REGISTRY}/thegippygeek/gha_poc:${BASEIMAGE_VERSION} AS al2023-dotnet-sdk
 ARG DOTNET_VERSION
 ENV dotnetversion=dotnet-sdk-$DOTNET_VERSION
 
@@ -28,7 +29,7 @@ RUN dnf install $(echo $dotnetversion) \
     && dnf clean all
 RUN dotnet --list-sdks
 
-FROM thegippygeek/gha_poc:${BASEIMAGE_VERSION} AS al2023-dotnet-runtime
+FROM ${CONTAINER_REGISTRY}/thegippygeek/gha_poc:${BASEIMAGE_VERSION} AS al2023-dotnet-runtime
 ARG DOTNET_VERSION
 ENV dotnetversion=aspnetcore-runtime-$DOTNET_VERSION
 
