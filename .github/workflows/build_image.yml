@@ -2,13 +2,13 @@ name: Docker - Build Image Workflow
 on: 
     workflow_call: 
         inputs:
-            Docker_Registry:
+            Container_Registry:
                 required: true
                 type: string
-            Docker_Username:
+            Container_Registry_Username:
                 required: true
                 type: string
-            Docker_Target:
+            Container_Build_Target:
                 required: true
                 type: string
             Image_Name:
@@ -117,6 +117,7 @@ jobs:
               build-args: |
                 "${{ inputs.Build_Args }}"
                 "BASEIMAGE_VERSION=${{ inputs.GitVersion_MajorMinorPatch }}"
+                "CONTAINER_REGISTRY=${{ inputs.Docker_Registry }}"
     
           # Sign the resulting Docker image digest except on PRs.
           # This will only write to the public Rekor transparency log when the Docker
