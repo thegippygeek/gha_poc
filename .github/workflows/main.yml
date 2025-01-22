@@ -46,7 +46,7 @@ jobs:
         repo_pat: ${{ secrets.GITHUB_TOKEN }}
 
   build-dotnet-8-sdks-runtimes:
-    name: Amazon Linux 2023 Dotnet 8                  
+    name: AL2023 Dotnet 8                  
     needs: [gitversion, build-base]
     strategy:
         matrix:
@@ -76,7 +76,7 @@ jobs:
 
 ##### DOTNET6 #####
   build-dotnet-6-sdks-runtimes:
-    name: Amazon Linux 2023 Dotnet 6                  
+    name: AL2023 Dotnet 6                  
     needs: [gitversion, build-base]
     strategy:
         matrix:
@@ -104,7 +104,7 @@ jobs:
         repo_pat: ${{ secrets.GITHUB_TOKEN }}
   
   build-nodejs:
-    name: Amazon Linx 2023 NodeJS
+    name: AL2023 NodeJS
     needs: [gitversion, build-base]
     strategy:
         matrix:
