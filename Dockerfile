@@ -39,7 +39,11 @@ RUN dnf install $(echo $dotnetversion) \
     && dnf clean all
 RUN dotnet --list-runtimes
 
+# nodejs
 FROM ${CONTAINER_REGISTRY}/thegippygeek/gha_poc:${BASEIMAGE_VERSION} AS al2023-nodejs
 
 RUN dnf install nodejs \
     && dnf clean all 
+
+# openjdk 17
+# al2023-maven-corretto 
