@@ -105,7 +105,7 @@ branches:
   hotfix:
     mode: ManualDeployment
     label: beta
-    increment: Inherit
+    increment: Patch
     prevent-increment:
       when-current-commit-tagged: false
     regex: ^hotfix(es)?[/-](?<BranchName>.+)

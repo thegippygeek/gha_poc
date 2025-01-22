@@ -9,7 +9,7 @@ on:
   schedule:
     - cron: '32 22 * * *'
   push:
-    branches: [ "main", "feature/*","bugfix/*" ]
+    branches: [ "feature/*", "hotfix/*" ]
     # # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
   pull_request:
@@ -23,7 +23,7 @@ jobs:
 
   build-base:
     name: Amazon Linux 2023
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     needs: gitversion
     permissions:
           contents: read
@@ -46,13 +46,13 @@ jobs:
         repo_pat: ${{ secrets.GITHUB_TOKEN }}
 
   build-dotnet-8-sdks-runtimes:
-    name: Amazon Linux 2023 Dotnet 8                  
+    name: AL2023 Dotnet 8                  
     needs: [gitversion, build-base]
     strategy:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]
                 
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     permissions:
           contents: read
           packages: write
@@ -76,12 +76,12 @@ jobs:
 
 ##### DOTNET6 #####
   build-dotnet-6-sdks-runtimes:
-    name: Amazon Linux 2023 Dotnet 6                  
+    name: AL2023 Dotnet 6                  
     needs: [gitversion, build-base]
     strategy:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]  
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     permissions:
           contents: read
           packages: write
@@ -104,13 +104,13 @@ jobs:
         repo_pat: ${{ secrets.GITHUB_TOKEN }}
   
   build-nodejs:
-    name: Amazon Linx 2023 NodeJS
+    name: AL2023 NodeJS
     needs: [gitversion, build-base]
     strategy:
         matrix:
             target: [al2023-nodejs]  
                       
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     permissions:
           contents: read
           packages: write
