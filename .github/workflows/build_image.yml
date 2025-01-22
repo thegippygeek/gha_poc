@@ -37,6 +37,7 @@ on:
 
 jobs:          
     build_image:
+        name: Image_Builder
         runs-on: ubuntu-latest
         # needs: gitversion
         permissions:
