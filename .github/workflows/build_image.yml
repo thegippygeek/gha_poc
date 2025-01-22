@@ -51,8 +51,8 @@ jobs:
           - name: Printout Inputs
             run: |
               echo "Docker Registry: ${{ inputs.Container_Registry}}"
-              echo "Docker Username: ${{ inputs.Container_Username}}"
-              echo "Docker Target: ${{ inputs.Container_Target}}"
+              echo "Docker Username: ${{ inputs.Container_Registry_Username}}"
+              echo "Docker Target: ${{ inputs.Container_Build_Target}}"
               echo "Image Name: ${{inputs.Image_Name}}"
               echo "GitVersion SemVer: ${{inputs.GitVersion_FullSemVer}}"
           
@@ -81,7 +81,7 @@ jobs:
             uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
             with:
               registry: ${{  inputs.Container_Registry }}
-              username: ${{  inputs.Container_Username }}
+              username: ${{  inputs.Container_Registry_Username }}
               password: ${{ secrets.repo_pat }}
 
           #     Extract metadata (tags, labels) for Docker
@@ -113,7 +113,7 @@ jobs:
               labels: ${{ steps.meta.outputs.labels }}
               cache-from: type=gha
               cache-to: type=gha,mode=max
-              target: ${{  inputs.Container_Target }}
+              target: ${{  inputs.Container_Build_Target }}
               build-args: |
                 "${{ inputs.Build_Args }}"
                 "BASEIMAGE_VERSION=${{ inputs.GitVersion_MajorMinorPatch }}"
