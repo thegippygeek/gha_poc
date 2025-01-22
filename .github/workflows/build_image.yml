@@ -50,9 +50,9 @@ jobs:
 
           - name: Printout Inputs
             run: |
-              echo "Docker Registry: ${{inputs.Docker_Registry}}"
-              echo "Docker Username: ${{inputs.Docker_Username}}"
-              echo "Docker Target: ${{inputs.Docker_Target}}"
+              echo "Docker Registry: ${{ inputs.Container_Registry}}"
+              echo "Docker Username: ${{ inputs.Container_Username}}"
+              echo "Docker Target: ${{ inputs.Container_Target}}"
               echo "Image Name: ${{inputs.Image_Name}}"
               echo "GitVersion SemVer: ${{inputs.GitVersion_FullSemVer}}"
           
@@ -76,12 +76,12 @@ jobs:
     
           # Login against a Docker registry except on PR
           # https://github.com/docker/login-action
-          - name: Log into registry ${{ inputs.Docker_Registry }}
+          - name: Log into registry ${{  inputs.Container_Registry }}
             if: github.event_name != 'pull_request'
             uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
             with:
-              registry: ${{ inputs.Docker_Registry }}
-              username: ${{ inputs.Docker_Username }}
+              registry: ${{  inputs.Container_Registry }}
+              username: ${{  inputs.Container_Username }}
               password: ${{ secrets.repo_pat }}
 
           #     Extract metadata (tags, labels) for Docker
@@ -90,7 +90,7 @@ jobs:
             id: meta
             uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
             with:
-              images: ${{ inputs.Docker_Registry }}/${{ inputs.Image_Name }}
+              images: ${{  inputs.Container_Registry }}/${{ inputs.Image_Name }}
               tags: |
                 type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='Australia/Perth'}}
                 type=raw,value=latest,enable={{is_default_branch}}
@@ -113,11 +113,11 @@ jobs:
               labels: ${{ steps.meta.outputs.labels }}
               cache-from: type=gha
               cache-to: type=gha,mode=max
-              target: ${{ inputs.Docker_Target }}
+              target: ${{  inputs.Container_Target }}
               build-args: |
                 "${{ inputs.Build_Args }}"
                 "BASEIMAGE_VERSION=${{ inputs.GitVersion_MajorMinorPatch }}"
-                "CONTAINER_REGISTRY=${{ inputs.Docker_Registry }}"
+                "CONTAINER_REGISTRY=${{  inputs.Container_Registry }}"
     
           # Sign the resulting Docker image digest except on PRs.
           # This will only write to the public Rekor transparency log when the Docker
