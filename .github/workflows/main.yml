@@ -23,7 +23,7 @@ jobs:
 
   build-base:
     name: Amazon Linux 2023
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     needs: gitversion
     permissions:
           contents: read
@@ -52,7 +52,7 @@ jobs:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]
                 
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     permissions:
           contents: read
           packages: write
@@ -81,7 +81,7 @@ jobs:
     strategy:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]  
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     permissions:
           contents: read
           packages: write
@@ -110,7 +110,7 @@ jobs:
         matrix:
             target: [al2023-nodejs]  
                       
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     permissions:
           contents: read
           packages: write
