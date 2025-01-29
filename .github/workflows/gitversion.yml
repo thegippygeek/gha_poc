@@ -67,6 +67,12 @@ jobs:
         run: | 
           echo "### GitVersion Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          # Set Table Row Header
+          echo "| Name | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+          
           while read -r line; do var="$line";
-            echo "- $line" >> $GITHUB_STEP_SUMMARY
+            # echo "- $line" >> $GITHUB_STEP_SUMMARY
+            IFS== read -r name value <<< $line
+            echo "| $name | $value"  >> $GITHUB_STEP_SUMMARY
           done < ${{ github.workspace }}/vars.env  
