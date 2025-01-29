@@ -37,7 +37,7 @@ on:
 
 jobs:          
     build_image:
-        name: Image_Builder
+        name: Build ${{ inputs.Container_Build_Target }}
         runs-on: ubuntu-latest
         # needs: gitversion
         permissions:
