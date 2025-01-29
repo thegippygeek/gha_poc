@@ -6,8 +6,8 @@ name: Docker - Build Images
 # documentation.
 
 on:
-  schedule:
-    - cron: '32 22 * * *'
+  # schedule:
+  #   - cron: '32 22 * * *'
   push:
     branches: [ "feature/*", "hotfix/*",  ]
     # # Publish semver tags as releases.
@@ -19,12 +19,12 @@ on:
 jobs:
   gitversion: 
     name: GitVersion 
-    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.2.4
+    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.2.5
 
   build-base:
     name: Amazon Linux 2023
     needs: gitversion
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/update-matrix
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.5
     permissions:
       contents: read
       packages: write
@@ -53,7 +53,7 @@ jobs:
         type: [sdk, runtime]
         dotnetVersion: ["6.0", "8.0"]
     name: AL2023 Dotnet ${{ matrix.dotnetVersion }}                              
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/update-matrix
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.5
     permissions:
           contents: read
           packages: write
@@ -73,34 +73,6 @@ jobs:
     secrets:
         repo_pat: ${{ secrets.GITHUB_TOKEN }}
 
-# ##### DOTNET6 #####
-#   build-dotnet-6-sdks-runtimes:
-#     name: AL2023 Dotnet 6                  
-#     needs: [gitversion, build-base]
-#     strategy:
-#         matrix:
-#             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]  
-#     uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@1.2.4
-#     permissions:
-#           contents: read
-#           packages: write
-#           # This is used to complete the identity challenge
-#           # with sigstore/fulcio when running outside of PRs.
-#           id-token: write
-#     with:
-#         Container_Registry: ${{ vars.CONTAINER_REGISTRY }}
-#         Container_Registry_Username: ${{ github.actor }}
-#         # Container_Registry_Username: ${{ vars.DOCKER_USERNAME }}
-#         Container_Build_Target: ${{ matrix.target }}
-#         Image_Name: ${{ github.repository }}-${{ matrix.os }}-${{ matrix.lang }}-${{ matrix.type }}-6
-#         Image_Description: "Amazon Linux 2023 with Dotnet 6"
-#         GitVersion_FullSemVer: ${{needs.gitversion.outputs.GitVersion_FullSemVer}}
-#         GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
-#         GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
-#         Build_Args: DOTNET_VERSION=6.0
-#     secrets:
-#         # repo_pat: ${{ secrets.DOCKERHUB }}
-#         repo_pat: ${{ secrets.GITHUB_TOKEN }}
 
   build-nodejs:
     name: AL2023 NodeJS
@@ -108,7 +80,7 @@ jobs:
     strategy:
         matrix:
             target: [al2023-nodejs]  
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/update-matrix
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.5
     permissions:
           contents: read
           packages: write
