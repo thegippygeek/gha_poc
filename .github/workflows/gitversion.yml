@@ -67,6 +67,6 @@ jobs:
         run: | 
           echo "### GitVersion Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-        # while read -r line; do var="$line";
-        #   echo "- $line" >> $GITHUB_STEP_SUMMARY
-        # done < ${{ github.workspace }}/vars.env  
+          while read -r line; do var="$line";
+            echo "- $line" >> $GITHUB_STEP_SUMMARY
+          done < ${{ github.workspace }}/vars.env  

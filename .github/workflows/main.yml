@@ -35,7 +35,7 @@ on:
 jobs:
   gitversion: 
     name: GitVersion 
-    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.2.5
+    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@feature/job_summary
 
   build-base:
     name: Amazon Linux 2023
