@@ -19,12 +19,9 @@ jobs:
   get_GitVersion:
     runs-on: ubuntu-latest
     outputs: 
-        branchName: ${{steps.version_step.outputs.branchName}}
-        fullSemVer: ${{steps.version_step.outputs.FullSemVer}}
-
-        GitVersion_BranchName: ${{steps.version_step.outputs.GitVersion_BranchName}}
-        GitVersion_FullSemVer: ${{steps.version_step.outputs.GitVersion_FullSemVer}}
-        GitVersion_ShortSHA: ${{steps.version_step.outputs.GitVersion_ShortSHA}}
+        GitVersion_BranchName:      ${{steps.version_step.outputs.GitVersion_BranchName}}
+        GitVersion_FullSemVer:      ${{steps.version_step.outputs.GitVersion_FullSemVer}}
+        GitVersion_ShortSHA:        ${{steps.version_step.outputs.GitVersion_ShortSHA}}
         GitVersion_MajorMinorPatch: ${{steps.version_step.outputs.GitVersion_MajorMinorPatch}}
 
     steps:
@@ -33,70 +30,35 @@ jobs:
         with:
             fetch-depth: 0
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v3.1.2
+      # docker run --rm -v "$(pwd):/repo" gittools/gitversion:{tag} /repo
+      - name: GitVersion | Container Run
+        uses: addnab/docker-run-action@v3
         with:
-            versionSpec: '6.0.0'
+          registry: docker.io
+          image: gittools/gitversion:latest
+          options: -v ${{github.workspace}}:/repo --env GITHUB_ACTIONS=true --env GITHUB_ENV=/repo/vars.env --env GITHUB_REF=${{github.base_ref}}
+          run: /tools/dotnet-gitversion /repo /output buildserver /config /repo/AWS-GitVersion.yml
 
-      - name: Determine Version
-        id: version_step
-        uses: gittools/actions/gitversion/execute@v3.1.2
-        with:
-          useConfigFile: true
-          configFilePath: AWS-GitVersion.yml
-          
-      - name: Display GitVersion variables (without prefix)
+      - name: GitVersion | set to host env vars from vars.env
         run: |
-            echo "FullSemVer (env.fullSemVer)            : ${{ env.fullSemVer }}"
+          while read -r line; do var="$line"; 
+            echo "$line" >> $GITHUB_ENV
+          done < ${{github.workspace}}/vars.env
+          
+      - name: GitVersion | set GHA Outputs
+        id: version_step
+        run: |
+          while read -r line; do var="$line"; 
+            echo "$line" >> $GITHUB_OUTPUT
+          done < ${{github.workspace}}/vars.env
+
+      - name: GitVersion | Output GitVersion Values
+        run: cat ${{github.workspace}}/vars.env
 
       - name: Display GitVersion variables (with prefix)
         run: |
             echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
 
-      - name: Display GitVersion outputs (step output without prefix)
-        run: |
-            echo "FullSemVer (steps.version_step.outputs.fullSemVer)            : ${{ steps.version_step.outputs.fullSemVer }}"
-
       - name: Display GitVersion outputs (step output with prefix)
         run: |
             echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
-
-      - name: Display mapped local env (outputs without prefix)
-        run: |
-            echo "FullSemVer (env.myvar_fullSemVer)            : ${{ env.myvar_fullSemVer }}"
-        env:
-            myvar_fullSemVer: ${{ steps.version_step.outputs.fullSemVer }}
-
-      - name: Display mapped local env (outputs with prefix)
-        run: |
-            echo "FullSemVer (env.myvar_GitVersion_FullSemVer) : ${{ env.myvar_GitVersion_FullSemVer }}"
-        env:
-            myvar_GitVersion_FullSemVer: ${{ steps.version_step.outputs.GitVersion_FullSemVer }}
-
-      - name: Display mapped local env (pwsh - outputs without prefix)
-        run: |
-            echo "FullSemVer (env.myvar_fullSemVer)            : $env:myvar_fullSemVer"
-        shell: pwsh
-        env:
-            myvar_fullSemVer: ${{ steps.version_step.outputs.fullSemVer }}
-
-      - name: Display mapped local env (pwsh - outputs with prefix)
-        run: |
-            echo "FullSemVer (env.myvar_GitVersion_FullSemVer) : $env:myvar_GitVersion_FullSemVer"
-        shell: pwsh
-        env:
-            myvar_GitVersion_FullSemVer: ${{ steps.version_step.outputs.GitVersion_FullSemVer }}
-
-      - name: Display mapped local env (bash - outputs without prefix)
-        run: |
-            echo "FullSemVer (myvar_fullSemVer)            : $myvar_fullSemVer"
-        shell: bash
-        env:
-            myvar_fullSemVer: ${{ steps.version_step.outputs.fullSemVer }}
-
-      - name: Display mapped local env (bash - outputs with prefix)
-        run: |
-            echo "FullSemVer (myvar_GitVersion_FullSemVer) : $myvar_GitVersion_FullSemVer"
-        shell: bash
-        env:
-            myvar_GitVersion_FullSemVer: ${{ steps.version_step.outputs.GitVersion_FullSemVer }}

@@ -9,7 +9,7 @@ on:
   schedule:
     - cron: '32 22 * * *'
   push:
-    branches: [ "feature/*", "hotfix/*" ]
+    branches: [ "feature/*", "hotfix/*",  ]
     # # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
   pull_request:
@@ -19,31 +19,31 @@ on:
 jobs:
   gitversion: 
     name: GitVersion 
-    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.2.0
+    uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@1.2.4
 
   build-base:
     name: Amazon Linux 2023
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
     needs: gitversion
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@1.2.4
     permissions:
-          contents: read
-          packages: write
-          # This is used to complete the identity challenge
-          # with sigstore/fulcio when running outside of PRs.
-          id-token: write
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
     with:
-        Container_Registry: ${{ vars.CONTAINER_REGISTRY }}
-        Container_Registry_Username: ${{ github.actor }}
-        # Container_Registry_Username: ${{ vars.DOCKER_USERNAME }}
-        Container_Build_Target: al2023-base
-        Image_Name: ${{ github.repository }}
-        Image_Description: "Amazon Linux 2023 Base Image to build sdks/runtimes upon"
-        GitVersion_FullSemVer: ${{ needs.gitversion.outputs.GitVersion_FullSemVer }}
-        GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
-        GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
+      Container_Registry: ${{ vars.CONTAINER_REGISTRY }}
+      Container_Registry_Username: ${{ github.actor }}
+      # Container_Registry_Username: ${{ vars.DOCKER_USERNAME }}
+      Container_Build_Target: al2023-base
+      Image_Name: ${{ github.repository }}
+      Image_Description: "Amazon Linux 2023 Base Image to build sdks/runtimes upon"
+      GitVersion_FullSemVer: ${{ needs.gitversion.outputs.GitVersion_FullSemVer }}
+      GitVersion_ShortSHA: ${{ needs.gitversion.outputs.GitVersion_ShortSHA }}
+      GitVersion_MajorMinorPatch: ${{ needs.gitversion.outputs.GitVersion_MajorMinorPatch }}
     secrets:
+      repo_pat: ${{ secrets.GITHUB_TOKEN }}
         # repo_pat: ${{ secrets.DOCKERHUB }}
-        repo_pat: ${{ secrets.GITHUB_TOKEN }}
 
   build-dotnet-8-sdks-runtimes:
     name: AL2023 Dotnet 8                  
@@ -52,7 +52,7 @@ jobs:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]
                 
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@1.2.4
     permissions:
           contents: read
           packages: write
@@ -81,7 +81,7 @@ jobs:
     strategy:
         matrix:
             target: [al2023-dotnet-sdk, al2023-dotnet-runtime]  
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@1.2.4
     permissions:
           contents: read
           packages: write
@@ -102,15 +102,15 @@ jobs:
     secrets:
         # repo_pat: ${{ secrets.DOCKERHUB }}
         repo_pat: ${{ secrets.GITHUB_TOKEN }}
-  
+
   build-nodejs:
     name: AL2023 NodeJS
     needs: [gitversion, build-base]
     strategy:
         matrix:
             target: [al2023-nodejs]  
-                      
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@hotfix/update-inputs-to-container
+
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@1.2.4
     permissions:
           contents: read
           packages: write
@@ -131,4 +131,3 @@ jobs:
     secrets:
         # repo_pat: ${{ secrets.DOCKERHUB }}
         repo_pat: ${{ secrets.GITHUB_TOKEN }}
-            
