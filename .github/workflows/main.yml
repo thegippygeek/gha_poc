@@ -38,8 +38,85 @@ on:
 
     
 jobs:
+  check_version:
+    name: Check AL Version
+    runs-on: ubuntu-latest
+    outputs:
+      Full_System_Release: ${{steps.system_release.outputs.SYSTEM_RELEASE}}
+      Amazon_Linux_Year: ${{steps.amazon_linux.outputs.AMAZON_LINUX_YEAR}}
+      Amazon_Linux_Build_Version: ${{steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_VERSION}}
+      Amazon_Linux_Build_Date: ${{steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_DATE}}
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+    steps:
+      - name: Pull Image
+        run: |
+          docker pull amazonlinux:2023 
+      - name: Get Release Name
+        id: system_release
+        run: |
+          echo "SYSTEM_RELEASE=$(docker run amazonlinux:2023 cat /etc/system-release | sed -r 's%[A-Za-z() ]%%g')" >> $GITHUB_OUTPUT
+          echo "SYSTEM_RELEASE=$(docker run amazonlinux:2023 cat /etc/system-release | sed -r 's%[A-Za-z() ]%%g')" >> $GITHUB_ENV
+      - name: Print Output | AL2023_SYSTEM_RELEASE
+        id: amazon_linux
+        run: |
+          echo "Amazon Linux System Release: $REL_VERSION"
+          IFS=. read -r year version date <<< $REL_VERSION
+          echo "AMAZON_LINUX_YEAR=$year" >> $GITHUB_OUTPUT   
+          echo "AMAZON_LINUX_BUILD_VERSION=$version" >> $GITHUB_OUTPUT 
+          echo "AMAZON_LINUX_BUILD_DATE=$date"  >> $GITHUB_OUTPUT  
+        env:
+          REL_VERSION: ${{ steps.system_release.outputs.SYSTEM_RELEASE }} 
+      - name: Summary Output | AL2023_SYSTEM_RELEASE
+        run: |
+          echo "### AL2023 Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "Full System Release: ${{ steps.system_release.outputs.SYSTEM_RELEASE }}" >> $GITHUB_STEP_SUMMARY
+          echo "System Release Year: ${{ steps.amazon_linux.outputs.AMAZON_LINUX_YEAR }}" >> $GITHUB_STEP_SUMMARY
+          echo "System Release Build Version: ${{ steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "System Release Build Date: ${{ steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_DATE }}" >> $GITHUB_STEP_SUMMARY
+      - uses: actions/checkout@v4
+      - run: |
+          # GitHub CLI api
+          # https://cli.github.com/manual/gh_api
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{github.repository}}/actions/variables | jq
+        env:
+          GH_TOKEN: ${{ secrets.UPDATE_VARIABLES_GH_TOKEN }}
+
+      - name: Run if Strings Match
+        env:
+          repo_var: ${{ vars.AMAZON_LINUX_2023_REL_VERSION }}
+          step_var: ${{ steps.system_release.outputs.SYSTEM_RELEASE}}
+        
+        if: env.repo_var == env.step_var
+        run: |
+          echo "# Strings match" >> $GITHUB_STEP_SUMMARY
+          echo "REPO VAR: ${{vars.AMAZON_LINUX_2023_REL_VERSION}}" >> $GITHUB_STEP_SUMMARY
+          echo "OUTPUT VAR: ${{steps.system_release.outputs.SYSTEM_RELEASE}}" >> $GITHUB_STEP_SUMMARY
+          exit 2 
+
+      - name: Run if Strings Don't Match
+        env:
+          repo_var: ${{ vars.AMAZON_LINUX_2023_REL_VERSION }}
+          step_var: ${{ steps.system_release.outputs.SYSTEM_RELEASE}}
+          
+          
+        if: env.repo_var != env.step_var
+        run: |
+          echo "# Strings Don't match :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "REPO VAR: ${{vars.AMAZON_LINUX_2023_REL_VERSION}}" >> $GITHUB_STEP_SUMMARY
+          echo "OUTPUT VAR: ${{steps.system_release.outputs.SYSTEM_RELEASE}}" >> $GITHUB_STEP_SUMMARY 
+
+
   gitversion: 
-    name: GitVersion 
+    name: GitVersion
+    needs: check_version
     uses: thegippygeek/gha_poc/.github/workflows/gitversion.yml@v1.3.0
 
   build-base:
