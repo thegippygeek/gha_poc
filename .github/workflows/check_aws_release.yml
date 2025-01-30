@@ -70,6 +70,11 @@ jobs:
         run: |
           echo "Strings match" >> $GITHUB_STEP_SUMMARY
 
+      - name: Run if Strings Don't Match
+        if: ${{vars.AMAZON_LINUX_2023_REL_VERSION}} != ${{steps.system_release.outputs.SYSTEM_RELEASE}}
+        run: |
+          echo "Strings Don't match :rocket:" >> $GITHUB_STEP_SUMMARY
+
 # 2023.6.20250115  
 #RELEASE_VER=$(echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g')
 
