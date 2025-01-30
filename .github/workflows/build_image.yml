@@ -124,4 +124,7 @@ jobs:
               echo " #### Image Labels" >> $GITHUB_STEP_SUMMARY
               echo "${{ steps.meta.outputs.labels }}" >> $GITHUB_STEP_SUMMARY
               
+              echo " #### Pull Image " >> $GITHUB_STEP_SUMMARY
+              echo "```" >>> $GITHUB_STEP_SUMMARY
               echo "docker pull ${{ inputs.Container_Registry }}/${{ inputs.Image_Name}}:${{inputs.GitVersion_MajorMinorPatch}}-${{inputs.GitVersion_ShortSHA}}" >> $GITHUB_STEP_SUMMARY
+              echo "```" >>> $GITHUB_STEP_SUMMARY
