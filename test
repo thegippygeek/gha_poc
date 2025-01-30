@@ -1,0 +1,67 @@
+set -e
+### BW CBA Amazon Linux 2023 DNF Repo Mirror Configuration Script  ###
+#                                                                    #
+# To ensure that our container images are using the most current dnf #
+# package repo, we are utilising the CBA Artifactory to download the #
+# mirror.list file for that Amazon Linux 2023 releases.              #
+#                                                                    #
+#16/07/2024                                                          #
+######################################################################
+ 
+## Just Make sure we are disabling the Original amazonlinux rpm repos
+echo "Disabling Amazon Linux Package Repos"
+sed -i 's%enabled=1%enabled=0%g' /etc/yum.repos.d/amazonlinux.repo --quiet
+ 
+## Get the Current Release Version of Container and Remove all non required characters
+echo "Getting Current Release Version"
+RELEASE_VER=$(echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g')
+echo "    Version: $RELEASE_VER"
+## Setting the base arch to x86_64
+BASE_ARCH=x86_64
+ 
+## Get GUID from mirrorlist and update for CBA Jfrog Artifactory
+MIRROR_LIST_URL=https://artifactory.internal.cba/artifactory/cdn.amazonlinux.com/al2023/core/mirrors/$RELEASE_VER/$BASE_ARCH/mirror.list
+ 
+RESULT=$(echo "$(curl -sf $MIRROR_LIST_URL)" | sed -r 's%https://%https://artifactory.internal.cba/artifactory/%g')
+ 
+if [ -z $RESULT ]; then
+    echo "Unable to get data from Mirror List"
+    exit 1
+fi
+ 
+## Create New dnf Config with updated GUID
+echo "Updating /etc/dnf/dnf.conf with CBA Amazon Linux $RELEASE_VER Mirror"
+ 
+DNF_CONF=/etc/dnf/dnf.conf
+ 
+cat <<EMO >$DNF_CONF
+[main]
+gpgcheck=True
+installonly_limit=3
+clean_requirements_on_remove=True
+best=True
+skip_if_unavailable=True
+debuglevel=10
+assumeyes=True
+defaultyes=True
+proxy=http://host.containers.internal:3128
+[artifactory.internal.cba-cdn.amazonlinux.com.$RELEASE_VER]
+name=CBA Artifactory $RELEASE_VER Mirror
+baseurl=$RESULT
+enabled=1
+excludepkgs=dotnet*,aspnet*,netstandard*
+exclude=dotnet* aspnet* netstandard*
+EMO
+ 
+ 
+## Validate if the new endpoint exists in /etc/dnf/dnf.conf | grep -x (match only whole lines)
+if grep -x baseurl=$RESULT $DNF_CONF; then
+    echo "Completed Successfully"
+    exit 0
+else
+    echo "baseurl is not correct"
+    exit 1
+fi
+has context menu
+You can't send messages because you are not a member of the chat.
+has context menu

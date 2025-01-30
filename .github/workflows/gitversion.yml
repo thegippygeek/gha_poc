@@ -56,9 +56,22 @@ jobs:
         run: cat ${{github.workspace}}/vars.env
 
       - name: Display GitVersion variables (with prefix)
-        run: |
-            echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
+        run:  |
+          echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
 
       - name: Display GitVersion outputs (step output with prefix)
         run: |
-            echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
+          echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
+
+      - name: Generate List of Variables for Summary
+        run: | 
+          echo "### GitVersion Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          # Set Table Row Header
+          echo "| Name | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+          
+          while read -r line; do var="$line";         
+            IFS== read -r name value <<< $line
+            echo "| $name | $value"  >> $GITHUB_STEP_SUMMARY
+          done < ${{ github.workspace }}/vars.env  

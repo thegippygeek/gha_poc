@@ -1,0 +1,4 @@
+
+
+
+#RELEASE_VER=$(echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g')
