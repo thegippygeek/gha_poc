@@ -40,7 +40,7 @@ jobs:
   build-base:
     name: Amazon Linux 2023
     needs: gitversion
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.5
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/job_summary
     permissions:
       contents: read
       packages: write
@@ -69,7 +69,7 @@ jobs:
         type: [sdk, runtime]
         dotnetVersion: ["6.0", "8.0"]
     name: AL2023 Dotnet ${{ matrix.dotnetVersion }}                              
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.5
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/job_summary
     permissions:
           contents: read
           packages: write
@@ -96,7 +96,7 @@ jobs:
     strategy:
         matrix:
             target: [al2023-nodejs]  
-    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@v1.2.5
+    uses: thegippygeek/gha_poc/.github/workflows/build_image.yml@feature/job_summary
     permissions:
           contents: read
           packages: write
