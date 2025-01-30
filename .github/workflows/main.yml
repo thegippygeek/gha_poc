@@ -10,7 +10,9 @@ on:
   #   - cron: '32 22 * * *'
   workflow_run:
     workflows: ["Check AWS Release Version"]
-    types: [requested]
+    types: [completed]
+    branches: ["features/*", "main"]
+
   workflow_dispatch:
     inputs:
       logLevel:
