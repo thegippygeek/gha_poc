@@ -66,14 +66,22 @@ jobs:
           GH_TOKEN: ${{ secrets.UPDATE_VARIABLES_GH_TOKEN }}
 
       - name: Run if Strings Match
-        if: ${{vars.AMAZON_LINUX_2023_REL_VERSION}} == ${{steps.system_release.outputs.SYSTEM_RELEASE}}
+        env:
+          repo_var: ${{ vars.AMAZON_LINUX_2023_REL_VERSION }}
+          step_var: ${{ steps.system_release.outputs.SYSTEM_RELEASE}}
+        
+        if: env.repo_var == env.step_var
         run: |
           echo "# Strings match" >> $GITHUB_STEP_SUMMARY
           echo "REPO VAR: ${{vars.AMAZON_LINUX_2023_REL_VERSION}}" >> $GITHUB_STEP_SUMMARY
           echo "OUTPUT VAR: ${{steps.system_release.outputs.SYSTEM_RELEASE}}" >> $GITHUB_STEP_SUMMARY 
 
       - name: Run if Strings Don't Match
-        if: ${{vars.AMAZON_LINUX_2023_REL_VERSION}} != ${{steps.system_release.outputs.SYSTEM_RELEASE}}
+        env:
+          repo_var: ${{ vars.AMAZON_LINUX_2023_REL_VERSION }}
+          step_var: ${{ steps.system_release.outputs.SYSTEM_RELEASE}}
+          
+        if: env.repo_var != env.step_var
         run: |
           echo "# Strings Don't match :rocket:" >> $GITHUB_STEP_SUMMARY
           echo "REPO VAR: ${{vars.AMAZON_LINUX_2023_REL_VERSION}}" >> $GITHUB_STEP_SUMMARY
@@ -84,4 +92,4 @@ jobs:
 #RELEASE_VER=$(echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g')
 
       #  STORED_VAR="${{vars.AMAZON_LINUX_2023_REL_VERSION}}"
-      #     CURRENT_VAR="${{steps.system_release.outputs.SYSTEM_RELEASE}}"
+      #  CURRENT_VAR="${{steps.system_release.outputs.SYSTEM_RELEASE}}"
