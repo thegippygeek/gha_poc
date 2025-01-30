@@ -1,4 +1,36 @@
+name: Check AWS Release Version
+
+on:
+  schedule:
+  - cron: '32 22 * * *'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+  push:
+    branches: [ "feature/amazon-linux-version-check" ]
 
 
+jobs:
+  check_version:
+    name: Check AL Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Image
+        run: |
+          docker pull amazonlinux:2023 
+      - name: Get Release Name
+        run: |
+          docker run --rm -it amazonlinux:2023 $(echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g')"
 
+# 2023.6.20250115  
 #RELEASE_VER=$(echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g')
+
+
