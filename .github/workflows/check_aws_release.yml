@@ -32,7 +32,9 @@ jobs:
           echo "AL2023_SYSTEM_RELEASE=$(docker run amazonlinux:2023 cat /etc/system-release | sed -r 's%[A-Za-z() ]%%g')" >> $GITHUB_OUTPUT
       - name: Print Output | AL2023_SYSTEM_RELEASE
         run: |
-          echo "AL2023 System Release Value: ${{ steps.system_release.outputs.AL2023_SYSTEM_RELEASE }}"    
+          REL_VERSION=${{ steps.system_release.outputs.AL2023_SYSTEM_RELEASE }}
+          echo "Amazon Linux System Release Value: $REL_VERSION"
+          echo "Amazon Linux Year:"    
       - name: Summary Output | AL2023_SYSTEM_RELEASE
         run: |
           echo "### AL2023 Release Summary" >> $GITHUB_STEP_SUMMARY
