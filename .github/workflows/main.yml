@@ -8,6 +8,9 @@ name: Docker - Build Images
 on:
   # schedule:
   #   - cron: '32 22 * * *'
+  workflow_run:
+    workflows: ["Check AWS Release Version"]
+    types: [requested]
   workflow_dispatch:
     inputs:
       logLevel:

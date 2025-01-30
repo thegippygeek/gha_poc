@@ -14,8 +14,8 @@ on:
         - info
         - warning
         - debug
-  push:
-    branches: [ "feature/amazon-linux-version-check" ]
+  # push:
+  #   branches: [ "feature/amazon-linux-version-check" ]
 
 
 jobs:
