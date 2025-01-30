@@ -25,7 +25,7 @@ on:
         type: boolean
 
   push:
-    branches: [ "feature/*", "hotfix/*",  ]
+    branches: [ "hotfix/*"  ]
     # # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
   pull_request:
