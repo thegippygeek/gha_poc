@@ -56,7 +56,12 @@ jobs:
           echo "System Release Build Date: ${{ steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_DATE }}" >> $GITHUB_STEP_SUMMARY
       - uses: actions/checkout@v4
       - run: |
-            gh variable list
+          # GitHub CLI api
+          # https://cli.github.com/manual/gh_api
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/thegippygeek/gha_poc/actions/variables
         env:
           GH_TOKEN: ${{ github.token }}
 
