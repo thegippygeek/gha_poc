@@ -28,7 +28,8 @@ jobs:
           docker pull amazonlinux:2023 
       - name: Get Release Name
         run: |
-          docker run --rm -it amazonlinux:2023 echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g'
+          docker run -v ${{ github.workspace }}:/temp --rm -it amazonlinux:2023 \
+          cat /etc/system-release && cp /etc/system-release /temp/system-release 
 
 # 2023.6.20250115  
 #RELEASE_VER=$(echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g')
