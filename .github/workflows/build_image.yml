@@ -115,6 +115,7 @@ jobs:
               echo "| Container Registry | ${{ inputs.Container_Registry }}|" >> $GITHUB_STEP_SUMMARY
               echo "| Image Name | ${{ inputs.Image_Name}}|"  >> $GITHUB_STEP_SUMMARY
               echo "| Image Tag | ${{inputs.GitVersion_MajorMinorPatch}}-${{inputs.GitVersion_ShortSHA}}|"  >> $GITHUB_STEP_SUMMARY
-              echo "| Image Name | ${{ inputs.Image_Name}}|"  >> $GITHUB_STEP_SUMMARY
+              echo "| Image Labels | ${{ steps.meta.outputs.labels }}|"  >> $GITHUB_STEP_SUMMARY
+              echo "| Image Tags | ${{ steps.meta.outputs.tags }}|" >> $GITHUB_STEP_SUMMARY
               echo "| Image Build Target |${{ inputs.Container_Build_Target}}|"  >> $GITHUB_STEP_SUMMARY
               
