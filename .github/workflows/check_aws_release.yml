@@ -1,8 +1,8 @@
 name: Check AWS Release Version
 
 on:
-  schedule:
-  - cron: '32 22 * * *'
+  # schedule:
+  # - cron: '32 22 * * *'
   workflow_dispatch:
     inputs:
       logLevel:
@@ -14,6 +14,17 @@ on:
         - info
         - warning
         - debug
+  workflow_call:
+    outputs:
+      # Full_System_Release: ${{steps.system_release.outputs.SYSTEM_RELEASE}}
+      Full_System_Release: 
+        value: ${{jobs.check_version.outputs.Full_System_Release}}
+      Amazon_Linux_Year: 
+        value: ${{jobs.check_version.outputs.Amazon_Linux_Year}}
+      Amazon_Linux_Build_Version: 
+        value: ${{jobs.check_version.outputs.Amazon_Linux_Build_Version}}
+      Amazon_Linux_Build_Date: 
+        value: ${{jobs.check_version.outputs.Amazon_Linux_Build_Date}}
   # push:
   #   branches: [ "feature/amazon-linux-version-check" ]
 
@@ -22,6 +33,11 @@ jobs:
   check_version:
     name: Check AL Version
     runs-on: ubuntu-latest
+    outputs:
+      Full_System_Release: ${{steps.system_release.outputs.SYSTEM_RELEASE}}
+      Amazon_Linux_Year: ${{steps.amazon_linux.outputs.AMAZON_LINUX_YEAR}}
+      Amazon_Linux_Build_Version: ${{steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_VERSION}}
+      Amazon_Linux_Build_Date: ${{steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_DATE}}
     permissions:
       contents: read
       packages: write
