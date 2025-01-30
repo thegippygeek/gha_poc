@@ -74,18 +74,21 @@ jobs:
         run: |
           echo "# Strings match" >> $GITHUB_STEP_SUMMARY
           echo "REPO VAR: ${{vars.AMAZON_LINUX_2023_REL_VERSION}}" >> $GITHUB_STEP_SUMMARY
-          echo "OUTPUT VAR: ${{steps.system_release.outputs.SYSTEM_RELEASE}}" >> $GITHUB_STEP_SUMMARY 
+          echo "OUTPUT VAR: ${{steps.system_release.outputs.SYSTEM_RELEASE}}" >> $GITHUB_STEP_SUMMARY
+          exit 2 
 
       - name: Run if Strings Don't Match
         env:
           repo_var: ${{ vars.AMAZON_LINUX_2023_REL_VERSION }}
           step_var: ${{ steps.system_release.outputs.SYSTEM_RELEASE}}
           
+          
         if: env.repo_var != env.step_var
         run: |
           echo "# Strings Don't match :rocket:" >> $GITHUB_STEP_SUMMARY
           echo "REPO VAR: ${{vars.AMAZON_LINUX_2023_REL_VERSION}}" >> $GITHUB_STEP_SUMMARY
           echo "OUTPUT VAR: ${{steps.system_release.outputs.SYSTEM_RELEASE}}" >> $GITHUB_STEP_SUMMARY 
+
 
 
 # 2023.6.20250115  
