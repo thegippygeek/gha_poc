@@ -34,12 +34,13 @@ jobs:
       - name: Print Output | AL2023_SYSTEM_RELEASE
         id: amazon_linux
         run: |
-          REL_VERSION=${{ steps.system_release.outputs.SYSTEM_RELEASE }}
           echo "Amazon Linux System Release: $REL_VERSION"
           IFS=. read -r year version date <<< $REL_VERSION
           echo "AMAZON_LINUX_YEAR=$year" >> $GITHUB_OUTPUT   
           echo "AMAZON_LINUX_BUILD_VERSION=$version" >> $GITHUB_OUTPUT 
-          echo "AMAZON_LINUX_BUILD_DATE=$date"  >> $GITHUB_OUTPUT   
+          echo "AMAZON_LINUX_BUILD_DATE=$date"  >> $GITHUB_OUTPUT  
+        env:
+          REL_VERSION: ${{ steps.system_release.outputs.SYSTEM_RELEASE }} 
       - name: Summary Output | AL2023_SYSTEM_RELEASE
         run: |
           echo "### AL2023 Release Summary" >> $GITHUB_STEP_SUMMARY
