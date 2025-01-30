@@ -120,8 +120,8 @@ jobs:
               echo "docker pull ${{ inputs.Container_Registry }}/${{ inputs.Image_Name}}:${{inputs.GitVersion_MajorMinorPatch}}-${{inputs.GitVersion_ShortSHA}}" >> $GITHUB_STEP_SUMMARY
               echo "```" >> $GITHUB_STEP_SUMMARY
               
-              # echo " #### Image Tags" >> $GITHUB_STEP_SUMMARY
-              echo "- ${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+              echo " #### Image Tags" >> $GITHUB_STEP_SUMMARY
+              echo "${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
               
-              # echo " #### Image Labels" >> $GITHUB_STEP_SUMMARY
-              echo "- ${{ steps.meta.outputs.labels }}" >> $GITHUB_STEP_SUMMARY
+              echo " #### Image Labels" >> $GITHUB_STEP_SUMMARY
+              echo "${{ steps.meta.outputs.labels }}" >> $GITHUB_STEP_SUMMARY
