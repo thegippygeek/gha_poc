@@ -47,6 +47,11 @@ jobs:
           echo "System Release Year: ${{ steps.amazon_linux.outputs.AMAZON_LINUX_YEAR }}" >> $GITHUB_STEP_SUMMARY
           echo "System Release Build Version: ${{ steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "System Release Build Date: ${{ steps.amazon_linux.outputs.AMAZON_LINUX_BUILD_DATE }}" >> $GITHUB_STEP_SUMMARY
+      - uses: actions/checkout@v4
+      - run: |
+            gh variable list
+            gh variable set TEST_VAR --body "Set from workflow"
+            gh variable list
 
 # 2023.6.20250115  
 #RELEASE_VER=$(echo "$(cat /etc/system-release)" | sed -r 's%[A-Za-z() ]%%g')
